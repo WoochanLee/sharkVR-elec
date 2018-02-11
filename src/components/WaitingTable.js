@@ -108,11 +108,11 @@ class WaitingTable extends React.Component {
     return (
       <div className='waitingDiv'>
         <div className='waitingTitleDiv'>
-          <img style={{height:'auto', width:'100%'}} className='logoImage' src='waiting.png'></img>
+          <img style={{height:'auto', width:'100%'}} className='logoImage' src='image/waiting.png'></img>
         </div>
         <div className='waitingTableDiv'>
           <Table
-          style={{fontFamily: 'NanumPenScriptR', fontSize: 20}}
+          style={{fontFamily: 'NanumGothicR', fontSize: 15}}
             scroll={{y:this.props.windowHeight*0.62}}
             columns={this.columns}
             data={this.state.data}
@@ -130,7 +130,7 @@ class WaitingTable extends React.Component {
                   this.newWaitingAdd();
                 }
               }}/>
-          <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, minWidth: '100px', height: '70%', margin: '1%'}} type="facebook" action={this.newWaitingAdd}>대기자 추가</AwesomeButton>
+          <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 13, minWidth: '100px', height: '70%', margin: '1%'}} type="facebook" action={this.newWaitingAdd}>대기자 추가</AwesomeButton>
         </div>
       </div>
     )

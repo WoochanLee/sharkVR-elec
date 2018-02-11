@@ -6,10 +6,10 @@ import SplitPane from 'react-split-pane';
 import Title from './Title';
 import CustomerTable from './CustomerTable';
 import WatingTable from './WaitingTable';
-import style from '../../public/style.css';
+import style from '../../public/css/style.css';
 import WaitingTable from './WaitingTable';
 
-//import style from './style.css';
+//import style from './css/style.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class App extends React.Component {
     return(
       <div style = {{minHeight:768, minWidth:1280, height: windowHeight, position: 'relative'}}>
         <img className='fullImage'/>
-        <SplitPane split="vertical" minSize={850} maxSize={windowWidth-450} defaultSize={1000} className="primary">
+        <SplitPane split="vertical" minSize={850} maxSize={windowWidth-450} defaultSize={850} className="primary">
           <div className='mainDiv'>
             <div className='title'>
               <Title/>

@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Line, Circle } from 'rc-progress';
+import { Line } from 'rc-progress';
 
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
@@ -40,7 +40,8 @@ class CustomerTable extends React.Component {
       remainHour: '00',
       remainMinute: '00',
       remainSecond: '00',
-      plusTime: ''
+      plusTime: '',
+      isBeverage: false
     };
 
     this.peopleChange = this.peopleChange.bind(this);
@@ -54,6 +55,7 @@ class CustomerTable extends React.Component {
     this.checkTimeColor = this.checkTimeColor.bind(this);
     this.checkOverTime = this.checkOverTime.bind(this);
     this.remainTimeRefresh = this.remainTimeRefresh.bind(this);
+    this.beverageClick = this.beverageClick.bind(this);
   }
 
   timeSet() {
@@ -100,7 +102,7 @@ class CustomerTable extends React.Component {
   startButtonClick(e) {
     if(this.state.initPeople>0&&this.state.initTime>0){
       if(!this.state.start) {
-        let timerID = setInterval(this.timeSet, 10);
+        let timerID = setInterval(this.timeSet, 1000);
         this.setState({
           start: true,
           timerID: timerID,
@@ -124,7 +126,8 @@ class CustomerTable extends React.Component {
         remainHour: '00',
         remainMinute: '00',
         remainSecond: '00',
-        plusTime: ''
+        plusTime: '',
+        isBeverage: false
       })
     }
   }
@@ -219,13 +222,25 @@ class CustomerTable extends React.Component {
     this.checkTimeColor(remainTime);
   }
 
+  beverageClick() {
+    if(this.state.isBeverage) {
+      this.setState({
+        isBeverage: false
+      })
+    }else{
+      this.setState({
+        isBeverage: true
+      })
+    }
+  }
+
   render() {
     let style = {
       position: 'relative',
       borderBottom: '2px solid grey',
       borderLeft: '2px solid grey',
       borderRight: '2px solid grey',
-      borderTop: '40px solid ' + this.props.color,
+      borderTop: '30px solid ' + this.props.color,
       height: '100%',
       backgroundColor: '#F7F7F7',
       borderRadius: '15px'
@@ -236,14 +251,18 @@ class CustomerTable extends React.Component {
 
         </div>
         <div className='circleMainDiv'>
-          <div className='circleInnerDiv'>
-              <div className='initTimeDiv'>{this.state.initHour}:{this.state.initMinute}</div>
-              <div style={{color:this.state.barColor}} className='flowTimeDiv'>{this.state.plusTime}{this.state.remainHour}:{this.state.remainMinute}</div>
-              <div style={{fontFamily: 'NanumPenScriptR', fontSize: 25}}>{this.state.initPeople} 인</div>
+          <div className='initTimeDiv'>{this.state.initHour}:{this.state.initMinute}</div>
+          <div className='flowTimeDiv'>
+            <div style={{color:this.state.barColor}} className='flowTime'>{this.state.plusTime}{this.state.remainHour}:{this.state.remainMinute}</div>
+            <div style={{color:this.state.barColor}} className='flowTimeSec'>:{this.state.remainSecond}</div>
           </div>
           <div className='circleDiv'>
-            <Circle percent={this.state.remainTime <= 0 ? 100 : (this.state.time/this.state.initTime)*100} strokeWidth="5" strokeColor={this.state.barColor} trailWidth="5" trailColor={'#DAEBFA'} />
+            <Line percent={this.state.remainTime <= 0 ? 100 : (this.state.time/this.state.initTime)*100} strokeWidth="10" strokeColor={this.state.barColor} trailWidth="10" trailColor={'#DAEBFA'} />
           </div>
+          <div style={{fontFamily: 'NanumGothicR', fontSize: 25}}>{this.state.initPeople} 인</div>
+        </div>
+        <div className='beverageDiv'>
+          <img style={{width:'auto', height:'100%', opacity: this.state.isBeverage ? 1 : 0.1}} src='image/beverage.png' onClick={this.beverageClick}></img>
         </div>
         <div className='tableInputWrapDiv'>
           {
@@ -267,16 +286,16 @@ class CustomerTable extends React.Component {
           {
             this.state.start ?
             <div className='timePlusDiv'>
-              <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, width: '23%', height: '100%', marginLeft: '2%'}} type="facebook" action={this.hourPlus}>H+</AwesomeButton>
-              <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, width: '23%', height: '100%', marginRight: '2%'}} type="reddit" action={this.hourMinus}>H-</AwesomeButton>
-              <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, width: '23%', height: '100%', marginLeft: '2%'}} type="facebook" action={this.minutePlus}>5M+</AwesomeButton>
-              <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, width: '23%', height: '100%', marginRight: '2%'}} type="reddit" action={this.minuteMinus}>5M-</AwesomeButton>
+              <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 12, width: '23%', height: '100%', marginLeft: '2%'}} type="facebook" action={this.hourPlus}>H+</AwesomeButton>
+              <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 12, width: '23%', height: '100%', marginRight: '2%'}} type="reddit" action={this.hourMinus}>H-</AwesomeButton>
+              <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 12, width: '23%', height: '100%', marginLeft: '2%'}} type="facebook" action={this.minutePlus}>5M+</AwesomeButton>
+              <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 12, width: '23%', height: '100%', marginRight: '2%'}} type="reddit" action={this.minuteMinus}>5M-</AwesomeButton>
             </div>
             : null
           }
         </div>
         <div className='startButton'>
-          <AwesomeButton style={{fontFamily: 'NanumPenScriptR', fontSize: 20, width: '91%', height: '100%'}} type="facebook" className='startButton' action={this.startButtonClick}>{this.state.startButtonText}</AwesomeButton>
+          <AwesomeButton style={{fontFamily: 'NanumGothicR', fontSize: 15, width: '91%', height: '100%'}} type="facebook" className='startButton' action={this.startButtonClick}>{this.state.startButtonText}</AwesomeButton>
         </div>
       </div>
     )
